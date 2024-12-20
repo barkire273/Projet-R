@@ -1,0 +1,25 @@
+project:
+  type: website
+
+website:
+  navbar:
+    title: "PROJET R"
+    left:
+      - text: "Home"
+        href: index.qmd
+      - text: "Statistiques descriptives"
+        href: statistiques_descriptives.qmd
+      - text: "Analyse des données"
+        href: analyse_des_donnees.qmd
+      - text: "About"
+        href: about.qmd
+
+format:
+  html:
+    echo: false
+    theme: cosmo
+    css: styles.css
+    toc: true
+
+
+

@@ -1,0 +1,149 @@
+---
+title: "Untitled"
+format: html
+editor: visual
+---
+
+```{r}
+
+
+## Introduction
+
+#Cette analyse explore les relations entre innovation et emploi en utilisant des statistiques descriptives, des visualisations et des analyses spécifiques.
+
+## Analyse en un seul bloc
+
+# Chargement des bibliothèques
+library(dplyr) 
+library(readr)
+library(stringr)
+library(tidyr)
+library(stringi)
+library(data.table)
+library(ggplot2)
+library(viridis)
+library(wordcloud2)
+
+# Chargement des données
+base_brevets <- read_csv("~/Desktop/Projet R/base_brevets.csv")
+base_emp <- read_csv("~/Desktop/Projet R/base_emp.csv")
+
+# Jointure des bases
+base_emp_inno <- full_join(base_brevets, base_emp, by = "firm_name")
+
+# Vérification des premières lignes
+head(base_emp_inno)
+
+# Statistiques descriptives - Base Brevets
+base_brevets %>%
+  summarise(
+    Moyenne = mean(n_patents, na.rm = TRUE),
+    Ecart_Type = sd(n_patents, na.rm = TRUE),
+    Valeurs_Manquantes = sum(is.na(n_patents)),
+    Minimum = min(n_patents, na.rm = TRUE),
+    Maximum = max(n_patents, na.rm = TRUE)
+  )
+
+# Top 5 des entreprises par nombre de brevets
+base_brevets %>%
+  arrange(desc(n_patents)) %>%
+  slice_head(n = 5) %>%
+  select(firm_name, n_patents)
+
+# Top 5 des entreprises par fréquence
+base_brevets %>%
+  group_by(firm_name) %>%
+  summarise(count = n(), .groups = "drop") %>%
+  arrange(desc(count)) %>%
+  slice_head(n = 5)
+
+# Statistiques descriptives - Emploi
+base_emp %>%
+  summarise(
+    Moyenne = mean(n_offres, na.rm = TRUE),
+    Ecart_Type = sd(n_offres, na.rm = TRUE),
+    Valeurs_Manquantes = sum(is.na(n_offres)),
+    Minimum = min(n_offres, na.rm = TRUE),
+    Maximum = max(n_offres, na.rm = TRUE)
+  )
+
+base_emp %>%
+  summarise(
+    Moyenne = mean(avg_wage, na.rm = TRUE),
+    Ecart_Type = sd(avg_wage, na.rm = TRUE),
+    Valeurs_Manquantes = sum(is.na(avg_wage)),
+    Minimum = min(avg_wage, na.rm = TRUE),
+    Maximum = max(avg_wage, na.rm = TRUE)
+  )
+
+# Visualisation - Relation nombre de brevets vs salaire moyen
+base_emp_inno_clean <- base_emp_inno %>%
+  filter(!is.na(avg_wage) & !is.na(n_patents) & avg_wage > 0 & n_patents > 0)
+
+ggplot(base_emp_inno_clean, aes(x = n_patents, y = avg_wage)) +
+  geom_point(aes(color = n_patents, size = avg_wage), alpha = 0.8) +
+  scale_color_viridis_c(option = "plasma", name = "Nombre de brevets") +
+  scale_size_continuous(range = c(3, 10), name = "Salaire moyen") +
+  geom_smooth(method = "loess", color = "darkred", se = TRUE, fill = "pink", linetype = "dashed") +
+  labs(
+    title = "Relation entre le Nombre de Brevets et les Salaires Moyens",
+    x = "Nombre de Brevets",
+    y = "Salaire Moyen"
+  ) +
+  theme_minimal()
+
+# Visualisation - Relation nombre de brevets vs nombre d'offres
+base_emp_inno_clean <- base_emp_inno %>%
+  filter(!is.na(n_offres) & !is.na(n_patents) & n_patents > 0 & n_offres > 0)
+
+ggplot(base_emp_inno_clean, aes(x = n_patents, y = n_offres)) +
+  geom_point(aes(color = n_patents, size = n_offres), alpha = 0.8) +
+  scale_color_viridis_c(option = "plasma", name = "Nombre de brevets") +
+  scale_size_continuous(range = c(3, 10), name = "Nombre d'Offres") +
+  geom_smooth(method = "loess", color = "darkred", se = TRUE, fill = "lightblue", linetype = "dashed") +
+  labs(
+    title = "Relation entre le Nombre de Brevets et les Offres d'Emploi",
+    x = "Nombre de Brevets",
+    y = "Nombre d'Offres"
+  ) +
+  theme_minimal()
+
+# Analyse des compétences - Top 10 des compétences associées à l'innovation
+
+top_skills <- base_emp_inno %>%
+  filter(!is.na(top_skill_req), n_patents > 0) %>%
+  separate_rows(top_skill_req, sep = "[,;/|]") %>%
+  mutate(
+    top_skill_req = str_to_lower(top_skill_req),
+    top_skill_req = str_replace_all(top_skill_req, "[[:punct:]]", ""),
+    top_skill_req = str_squish(top_skill_req)
+  ) %>%
+  group_by(top_skill_req) %>%
+  summarise(total_patents = sum(n_patents, na.rm = TRUE), .groups = "drop") %>%
+  arrange(desc(total_patents)) %>%
+  slice_head(n = 10)
+
+ggplot(top_skills, aes(x = reorder(top_skill_req, total_patents), y = total_patents)) +
+  geom_col(fill = "steelblue") +
+  coord_flip() +
+  labs(
+    title = "Top 10 des Compétences Associées à l'Innovation",
+    x = "Compétences",
+    y = "Nombre Total de Brevets"
+  ) +
+  theme_minimal()
+
+wordcloud_data <- top_skills %>%
+  rename(word = top_skill_req, freq = total_patents)
+wordcloud2(wordcloud_data, size = 0.7, color = "random-light", backgroundColor = "white")
+
+```
+
+You can add options to executable code like this
+
+```{r}
+#| echo: false
+2 * 2
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).

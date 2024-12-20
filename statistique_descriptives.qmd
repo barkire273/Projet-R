@@ -1,0 +1,154 @@
+
+## Introduction
+
+Cette analyse explore les relations entre les brevets et l'emploi à travers des statistiques descriptives et des visualisations.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(dplyr)
+library(readr)
+library(stringr)
+library(tidyr)
+library(stringi)
+library(data.table)
+library(ggplot2)
+library(viridis)
+library(kableExtra)
+```
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+base_brevets <- read_csv("~/Desktop/Projet R/base_brevets.csv")
+base_emp <- read_csv("~/Desktop/Projet R/base_emp.csv")
+base_emp_inno <- full_join(base_brevets, base_emp, by = "firm_name")
+```
+
+# Statistique base brevet
+### Statistiques descriptives de n_patents
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+stat_n_patent <- base_brevets %>%
+  summarise(
+    Moyenne = mean(n_patents, na.rm = TRUE),
+    Ecart_Type = sd(n_patents, na.rm = TRUE),
+    Valeurs_Manquantes = sum(is.na(n_patents)),
+    Minimum = min(n_patents, na.rm = TRUE),
+    Maximum = max(n_patents, na.rm = TRUE)
+  )
+# Création d'un tableau HTML stylisé
+kable(stat_n_patent, format = "html", caption = "Statistiques descriptives de n_patents") %>%
+  kable_styling(full_width = FALSE, position = "center", bootstrap_options = c("striped", "hover", "condensed", "responsive"))
+```
+### Top 5 des entreprises ayant déposé le plus de brevets
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+top_n_patents <- base_brevets %>%
+  arrange(desc(n_patents)) %>%
+  slice_head(n = 5) %>%
+  select(firm_name, n_patents)
+# Création d'un tableau HTML stylisé
+kable(top_n_patents, format = "html", caption = "Top 5 des entreprises ayant déposé le plus de brevets") %>%
+  kable_styling(full_width = FALSE, position = "center", bootstrap_options = c("striped", "hover", "condensed", "responsive"))
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+valeurs_frequentes <- function(data, variable, exclude_na = TRUE, top_n = 5) {
+  if (exclude_na) {
+    data <- data %>% filter(!is.na(.data[[variable]]))
+  }
+  data %>%
+    group_by(across(all_of(variable))) %>%
+    summarise(count = n(), .groups = "drop") %>%
+    arrange(desc(count)) %>%
+    slice_head(n = 5)
+}
+
+top_firmes_brevets <- valeurs_frequentes(base_brevets, "firm_name")
+top_ipc <- valeurs_frequentes(base_brevets, "ipc_main_desc")
+top_villes <- valeurs_frequentes(base_brevets, "addr_city_main")
+top_depts <- valeurs_frequentes(base_brevets, "addr_dept_main")
+
+# Création des tableaux HTML stylisés
+kable(top_firmes_brevets, format = "html", caption = "Top 5 des firmes les plus fréquentes dans les brevets") %>%
+  kable_styling(full_width = FALSE, position = "center", bootstrap_options = c("striped", "hover", "condensed", "responsive"))
+
+kable(top_ipc, format = "html", caption = "Top 5 des descriptions des IPC principaux les plus fréquents") %>%
+  kable_styling(full_width = FALSE, position = "center", bootstrap_options = c("striped", "hover", "responsive"))
+
+kable(top_villes, format = "html", caption = "Top 5 des villes les plus fréquentes dans les brevets") %>%
+  kable_styling(full_width = FALSE, position = "center", bootstrap_options = c("striped", "hover", "condensed", "responsive"))
+
+kable(top_depts, format = "html", caption = "Top 5 des départements les plus fréquents dans les brevets") %>%
+  kable_styling(full_width = FALSE, position = "center", bootstrap_options = c("striped", "hover", "condensed", "responsive"))
+```
+
+# Statistique emploi
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+stat_n_offres <- base_emp %>%
+  summarise(
+    Moyenne = mean(n_offres, na.rm = TRUE),
+    Ecart_Type = sd(n_offres, na.rm = TRUE),
+    Valeurs_Manquantes = sum(is.na(n_offres)),
+    Minimum = min(n_offres, na.rm = TRUE),
+    Maximum = max(n_offres, na.rm = TRUE)
+  )
+# Création d'un tableau HTML stylisé
+kable(stat_n_offres, format = "html", caption = "Statistiques descriptives de n_offres") %>%
+  kable_styling(full_width = FALSE, position = "center", bootstrap_options = c("striped", "hover", "condensed", "responsive"))
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+stat_salaire <- base_emp %>%
+  summarise(
+    Moyenne = mean(avg_wage, na.rm = TRUE),
+    Ecart_Type = sd(avg_wage, na.rm = TRUE),
+    Valeurs_Manquantes = sum(is.na(avg_wage)),
+    Minimum = min(avg_wage, na.rm = TRUE),
+    Maximum = max(avg_wage, na.rm = TRUE)
+  )
+# Création d'un tableau HTML stylisé
+kable(stat_salaire, format = "html", caption = "Statistiques descriptives des salaires moyens") %>%
+  kable_styling(full_width = FALSE, position = "center", bootstrap_options = c("striped", "hover", "condensed", "responsive"))
+```
+
+# Statistique emploi_inno
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+stat_n_patents_f <- base_emp_inno %>%
+  summarise(
+    Moyenne = mean(n_patents, na.rm = TRUE),
+    Ecart_Type = sd(n_patents, na.rm = TRUE),
+    Valeurs_Manquantes = sum(is.na(n_patents)),
+    Minimum = min(n_patents, na.rm = TRUE),
+    Maximum = max(n_patents, na.rm = TRUE)
+  )
+# Création d'un tableau HTML stylisé
+kable(stat_n_patents_f, format = "html", caption = "Statistiques descriptives des brevets après fusion") %>%
+  kable_styling(full_width = FALSE, position = "center", bootstrap_options = c("striped", "hover", "condensed", "responsive"))
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+stat_n_offres_f <- base_emp_inno %>%
+  summarise(
+    Moyenne = mean(n_offres, na.rm = TRUE),
+    Ecart_Type = sd(n_offres, na.rm = TRUE),
+    Valeurs_Manquantes = sum(is.na(n_offres)),
+    Minimum = min(n_offres, na.rm = TRUE),
+    Maximum = max(n_offres, na.rm = TRUE)
+  )
+# Création d'un tableau HTML stylisé
+kable(stat_n_offres_f, format = "html", caption = "Statistiques descriptives des offres d'emploi après fusion") %>%
+  kable_styling(full_width = FALSE, position = "center", bootstrap_options = c("striped", "hover", "condensed", "responsive"))
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+stat_salaire_f <- base_emp_inno %>%
+  summarise(
+    Moyenne = mean(avg_wage, na.rm = TRUE),
+    Ecart_Type = sd(avg_wage, na.rm = TRUE),
+    Valeurs_Manquantes = sum(is.na(avg_wage)),
+    Minimum = min(avg_wage, na.rm = TRUE),
+    Maximum = max(avg_wage, na.rm = TRUE)
+  )
+# Création d'un tableau HTML stylisé
+kable(stat_salaire_f, format = "html", caption = "Statistiques descriptives des salaires moyens après fusion") %>%
+  kable_styling(full_width = FALSE, position = "center", bootstrap_options = c("striped", "hover", "condensed", "responsive"))
+```
