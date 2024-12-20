@@ -12,9 +12,7 @@ output:
 
 # Bienvenue sur l'Analyse de l'Innovation et de l'Emploi
 
-<div style="text-align: center; margin-top: 20px;">
-    <img src="images/innovation_employment.jpg" alt="Innovation et Emploi" style="width: 70%; border-radius: 15px; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);">
-</div>
+
 
 ---
 

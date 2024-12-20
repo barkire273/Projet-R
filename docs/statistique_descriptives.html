@@ -6,9 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Votre Nom">
 
-<title>Analyse des Données d’Innovation et d’Emploi</title>
+<title>statistique_descriptives</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -67,6 +66,8 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
 
 
 <link rel="stylesheet" href="styles.css">
@@ -90,7 +91,7 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
+    <a class="nav-link" href="./index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
@@ -121,91 +122,406 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#bienvenue-sur-lanalyse-de-linnovation-et-de-lemploi" id="toc-bienvenue-sur-lanalyse-de-linnovation-et-de-lemploi" class="nav-link active" data-scroll-target="#bienvenue-sur-lanalyse-de-linnovation-et-de-lemploi">Bienvenue sur l’Analyse de l’Innovation et de l’Emploi</a>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#statistique-base-brevet" id="toc-statistique-base-brevet" class="nav-link" data-scroll-target="#statistique-base-brevet">Statistique base brevet</a>
   <ul class="collapse">
-  <li><a href="#objectifs-de-cette-analyse" id="toc-objectifs-de-cette-analyse" class="nav-link" data-scroll-target="#objectifs-de-cette-analyse">Objectifs de cette Analyse</a></li>
-  <li><a href="#résumé-des-sections" id="toc-résumé-des-sections" class="nav-link" data-scroll-target="#résumé-des-sections">Résumé des Sections</a></li>
-  <li><a href="#commencez-votre-exploration" id="toc-commencez-votre-exploration" class="nav-link" data-scroll-target="#commencez-votre-exploration">Commencez votre Exploration</a></li>
+  <li><a href="#statistiques-descriptives-de-n_patents" id="toc-statistiques-descriptives-de-n_patents" class="nav-link" data-scroll-target="#statistiques-descriptives-de-n_patents">Statistiques descriptives de n_patents</a></li>
+  <li><a href="#top-5-des-entreprises-ayant-déposé-le-plus-de-brevets" id="toc-top-5-des-entreprises-ayant-déposé-le-plus-de-brevets" class="nav-link" data-scroll-target="#top-5-des-entreprises-ayant-déposé-le-plus-de-brevets">Top 5 des entreprises ayant déposé le plus de brevets</a></li>
   </ul></li>
+  <li><a href="#statistique-emploi" id="toc-statistique-emploi" class="nav-link" data-scroll-target="#statistique-emploi">Statistique emploi</a></li>
+  <li><a href="#statistique-emploi_inno" id="toc-statistique-emploi_inno" class="nav-link" data-scroll-target="#statistique-emploi_inno">Statistique emploi_inno</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
 
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">Analyse des Données d’Innovation et d’Emploi</h1>
-<p class="subtitle lead">Explorer les tendances entre innovation et opportunités professionnelles</p>
+
+
+
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>Cette analyse explore les relations entre les brevets et l’emploi à travers des statistiques descriptives et des visualisations.</p>
+</section>
+<section id="statistique-base-brevet" class="level1">
+<h1>Statistique base brevet</h1>
+<section id="statistiques-descriptives-de-n_patents" class="level3">
+<h3 class="anchored" data-anchor-id="statistiques-descriptives-de-n_patents">Statistiques descriptives de n_patents</h3>
+<div class="cell">
+<div class="cell-output-display">
+<div class="table-responsive">
+<table class="table table-striped table-hover table-condensed caption-top table-sm small" data-quarto-postprocess="true">
+<caption>Statistiques descriptives de n_patents</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;" data-quarto-table-cell-role="th">Moyenne</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Ecart_Type</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Valeurs_Manquantes</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Minimum</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Maximum</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">11.30548</td>
+<td style="text-align: right;">111.7698</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">4870</td>
+</tr>
+</tbody>
+</table>
 </div>
 
 
-
-<div class="quarto-title-meta">
-
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Votre Nom </p>
-          </div>
-  </div>
-    
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">Invalid Date</p>
-    </div>
-  </div>
-  
-    
-  </div>
-  
-
-
-</header>
-
-
-<section id="bienvenue-sur-lanalyse-de-linnovation-et-de-lemploi" class="level1">
-<h1>Bienvenue sur l’Analyse de l’Innovation et de l’Emploi</h1>
-<hr>
-<section id="objectifs-de-cette-analyse" class="level2">
-<h2 class="anchored" data-anchor-id="objectifs-de-cette-analyse">Objectifs de cette Analyse</h2>
-<ol type="1">
-<li>Identifier les secteurs les plus innovants et leurs impacts sur l’emploi.</li>
-<li>Comprendre les compétences les plus demandées liées à l’innovation.</li>
-<li>Explorer les relations entre brevets, salaires, et offres d’emploi.</li>
-<li>Visualiser les données pour des interprétations approfondies et compréhensibles.</li>
-</ol>
-<hr>
+</div>
+</div>
 </section>
-<section id="résumé-des-sections" class="level2">
-<h2 class="anchored" data-anchor-id="résumé-des-sections">Résumé des Sections</h2>
-<ol type="1">
-<li><strong>Relation entre Innovation et Salaires</strong> :
-<ul>
-<li>Une analyse des tendances entre brevets déposés et rémunération.</li>
-</ul></li>
-<li><strong>Relation entre Innovation et Emplois</strong> :
-<ul>
-<li>Découvrez comment l’innovation stimule la création d’opportunités.</li>
-</ul></li>
-<li><strong>Compétences Clés Associées à l’Innovation</strong> :
-<ul>
-<li>Les compétences les plus valorisées dans les entreprises innovantes.</li>
-</ul></li>
-<li><strong>Focus sur les Secteurs et Codes IPC</strong> :
-<ul>
-<li>Une exploration des leaders en innovation et des classifications industrielles.</li>
-</ul></li>
-</ol>
-<hr>
-</section>
-<section id="commencez-votre-exploration" class="level2">
-<h2 class="anchored" data-anchor-id="commencez-votre-exploration">Commencez votre Exploration</h2>
-<p>Cliquez sur les liens dans la table des matières pour explorer chaque analyse en détail.</p>
+<section id="top-5-des-entreprises-ayant-déposé-le-plus-de-brevets" class="level3">
+<h3 class="anchored" data-anchor-id="top-5-des-entreprises-ayant-déposé-le-plus-de-brevets">Top 5 des entreprises ayant déposé le plus de brevets</h3>
+<div class="cell">
+<div class="cell-output-display">
+<div class="table-responsive">
+<table class="table table-striped table-hover table-condensed caption-top table-sm small" data-quarto-postprocess="true">
+<caption>Top 5 des entreprises ayant déposé le plus de brevets</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">firm_name</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">n_patents</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">commissariat a l'energie atomique et aux energies alternatives</td>
+<td style="text-align: right;">4870</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">cnrs</td>
+<td style="text-align: right;">4247</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">alcatel</td>
+<td style="text-align: right;">3180</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">michelin</td>
+<td style="text-align: right;">2820</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">safran</td>
+<td style="text-align: right;">2407</td>
+</tr>
+</tbody>
+</table>
+</div>
 
 
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div class="table-responsive">
+<table class="table table-striped table-hover table-condensed caption-top table-sm small" data-quarto-postprocess="true">
+<caption>Top 5 des firmes les plus fréquentes dans les brevets</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">firm_name</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">count</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">orange</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">'add-one'</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">'apollon solar'</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">'s.a.g.a.c.e.' services en administration, gestion et applications au conseil a l'environnement</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">1/4 vin</td>
+<td style="text-align: right;">1</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+</div>
+<div class="cell-output-display">
+<div class="table-responsive">
+<table class="table table-striped table-hover caption-top table-sm small" data-quarto-postprocess="true">
+<caption>Top 5 des descriptions des IPC principaux les plus fréquents</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">ipc_main_desc</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">count</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">DIAGNOSIS; SURGERY; IDENTIFICATION (analysing biological material G01N</td>
+<td style="text-align: right;">571</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">SPECIFIC THERAPEUTIC ACTIVITY OF CHEMICAL COMPOUNDS OR MEDICINAL PREPARATIONS</td>
+<td style="text-align: right;">553</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CONTAINERS FOR STORAGE OR TRANSPORT OF ARTICLES OR MATERIALS</td>
+<td style="text-align: right;">287</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">FILTERS IMPLANTABLE INTO BLOOD VESSELS; PROSTHESES; DEVICES PROVIDING PATENCY TO</td>
+<td style="text-align: right;">278</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">TRANSMISSION OF DIGITAL INFORMATION</td>
+<td style="text-align: right;">262</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+</div>
+<div class="cell-output-display">
+<div class="table-responsive">
+<table class="table table-striped table-hover table-condensed caption-top table-sm small" data-quarto-postprocess="true">
+<caption>Top 5 des villes les plus fréquentes dans les brevets</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">addr_city_main</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">count</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Paris</td>
+<td style="text-align: right;">967</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Lyon</td>
+<td style="text-align: right;">119</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Marseille</td>
+<td style="text-align: right;">114</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Toulouse</td>
+<td style="text-align: right;">103</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Montpellier</td>
+<td style="text-align: right;">86</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+</div>
+<div class="cell-output-display">
+<div class="table-responsive">
+<table class="table table-striped table-hover table-condensed caption-top table-sm small" data-quarto-postprocess="true">
+<caption>Top 5 des départements les plus fréquents dans les brevets</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;" data-quarto-table-cell-role="th">addr_dept_main</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">count</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">75</td>
+<td style="text-align: right;">959</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">92</td>
+<td style="text-align: right;">495</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">69</td>
+<td style="text-align: right;">436</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">13</td>
+<td style="text-align: right;">330</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">38</td>
+<td style="text-align: right;">286</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+</div>
+</div>
 </section>
+</section>
+<section id="statistique-emploi" class="level1">
+<h1>Statistique emploi</h1>
+<div class="cell">
+<div class="cell-output-display">
+<div class="table-responsive">
+<table class="table table-striped table-hover table-condensed caption-top table-sm small" data-quarto-postprocess="true">
+<caption>Statistiques descriptives de n_offres</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;" data-quarto-table-cell-role="th">Moyenne</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Ecart_Type</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Valeurs_Manquantes</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Minimum</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Maximum</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">4.272468</td>
+<td style="text-align: right;">8.370608</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">68</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div class="table-responsive">
+<table class="table table-striped table-hover table-condensed caption-top table-sm small" data-quarto-postprocess="true">
+<caption>Statistiques descriptives des salaires moyens</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;" data-quarto-table-cell-role="th">Moyenne</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Ecart_Type</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Valeurs_Manquantes</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Minimum</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Maximum</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">53230.29</td>
+<td style="text-align: right;">15090.82</td>
+<td style="text-align: right;">558</td>
+<td style="text-align: right;">9600</td>
+<td style="text-align: right;">1e+05</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+</div>
+</div>
+</section>
+<section id="statistique-emploi_inno" class="level1">
+<h1>Statistique emploi_inno</h1>
+<div class="cell">
+<div class="cell-output-display">
+<div class="table-responsive">
+<table class="table table-striped table-hover table-condensed caption-top table-sm small" data-quarto-postprocess="true">
+<caption>Statistiques descriptives des brevets après fusion</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;" data-quarto-table-cell-role="th">Moyenne</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Ecart_Type</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Valeurs_Manquantes</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Minimum</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Maximum</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">11.42168</td>
+<td style="text-align: right;">112.2631</td>
+<td style="text-align: right;">651</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">4870</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div class="table-responsive">
+<table class="table table-striped table-hover table-condensed caption-top table-sm small" data-quarto-postprocess="true">
+<caption>Statistiques descriptives des offres d'emploi après fusion</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;" data-quarto-table-cell-role="th">Moyenne</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Ecart_Type</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Valeurs_Manquantes</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Minimum</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Maximum</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">4.27027</td>
+<td style="text-align: right;">8.35882</td>
+<td style="text-align: right;">8196</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">68</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div class="table-responsive">
+<table class="table table-striped table-hover table-condensed caption-top table-sm small" data-quarto-postprocess="true">
+<caption>Statistiques descriptives des salaires moyens après fusion</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;" data-quarto-table-cell-role="th">Moyenne</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Ecart_Type</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Valeurs_Manquantes</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Minimum</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Maximum</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">53230.29</td>
+<td style="text-align: right;">15090.82</td>
+<td style="text-align: right;">8756</td>
+<td style="text-align: right;">9600</td>
+<td style="text-align: right;">1e+05</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+</div>
+</div>
+
+
 </section>
 
 </main> <!-- /main -->

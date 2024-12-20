@@ -6,9 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Votre Nom">
 
-<title>Analyse des Données d’Innovation et d’Emploi</title>
+<title>Analyse des données</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -67,6 +66,12 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<link href="site_libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+<script src="site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<link href="site_libs/wordcloud2-0.0.1/wordcloud.css" rel="stylesheet">
+<script src="site_libs/wordcloud2-0.0.1/wordcloud2-all.js"></script>
+<script src="site_libs/wordcloud2-0.0.1/hover.js"></script>
+<script src="site_libs/wordcloud2-binding-0.2.1/wordcloud2.js"></script>
 
 
 <link rel="stylesheet" href="styles.css">
@@ -90,7 +95,7 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
+    <a class="nav-link" href="./index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
@@ -121,12 +126,13 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#bienvenue-sur-lanalyse-de-linnovation-et-de-lemploi" id="toc-bienvenue-sur-lanalyse-de-linnovation-et-de-lemploi" class="nav-link active" data-scroll-target="#bienvenue-sur-lanalyse-de-linnovation-et-de-lemploi">Bienvenue sur l’Analyse de l’Innovation et de l’Emploi</a>
-  <ul class="collapse">
-  <li><a href="#objectifs-de-cette-analyse" id="toc-objectifs-de-cette-analyse" class="nav-link" data-scroll-target="#objectifs-de-cette-analyse">Objectifs de cette Analyse</a></li>
-  <li><a href="#résumé-des-sections" id="toc-résumé-des-sections" class="nav-link" data-scroll-target="#résumé-des-sections">Résumé des Sections</a></li>
-  <li><a href="#commencez-votre-exploration" id="toc-commencez-votre-exploration" class="nav-link" data-scroll-target="#commencez-votre-exploration">Commencez votre Exploration</a></li>
-  </ul></li>
+  <li><a href="#section" id="toc-section" class="nav-link active" data-scroll-target="#section"></a></li>
+  <li><a href="#relation-entre-le-nombre-de-brevets-et-les-salaires-moyens" id="toc-relation-entre-le-nombre-de-brevets-et-les-salaires-moyens" class="nav-link" data-scroll-target="#relation-entre-le-nombre-de-brevets-et-les-salaires-moyens">Relation entre le nombre de brevets et les salaires moyens</a></li>
+  <li><a href="#relation-entre-le-nombre-de-brevets-et-les-offres-demploi" id="toc-relation-entre-le-nombre-de-brevets-et-les-offres-demploi" class="nav-link" data-scroll-target="#relation-entre-le-nombre-de-brevets-et-les-offres-demploi">Relation entre le nombre de brevets et les offres d’emploi</a></li>
+  <li><a href="#top-10-des-compétences-associées-à-linnovation" id="toc-top-10-des-compétences-associées-à-linnovation" class="nav-link" data-scroll-target="#top-10-des-compétences-associées-à-linnovation">Top 10 des compétences associées à l’innovation</a></li>
+  <li><a href="#top-5-des-secteurs-ayant-fait-beaucoup-doffre-demploi" id="toc-top-5-des-secteurs-ayant-fait-beaucoup-doffre-demploi" class="nav-link" data-scroll-target="#top-5-des-secteurs-ayant-fait-beaucoup-doffre-demploi">Top 5 des Secteurs ayant fait beaucoup d’offre d’emploi</a></li>
+  <li><a href="#top-10-des-compétences-associées-avec-salaire" id="toc-top-10-des-compétences-associées-avec-salaire" class="nav-link" data-scroll-target="#top-10-des-compétences-associées-avec-salaire">Top 10 des compétences associées avec salaire</a></li>
+  <li><a href="#graphique-des-5-meilleurs-codes-ipc-par-nombre-de-brevets" id="toc-graphique-des-5-meilleurs-codes-ipc-par-nombre-de-brevets" class="nav-link" data-scroll-target="#graphique-des-5-meilleurs-codes-ipc-par-nombre-de-brevets">Graphique des 5 meilleurs codes IPC par nombre de brevets</a></li>
   </ul>
 </nav>
     </div>
@@ -135,27 +141,14 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Analyse des Données d’Innovation et d’Emploi</h1>
-<p class="subtitle lead">Explorer les tendances entre innovation et opportunités professionnelles</p>
+<h1 class="title">Analyse des données</h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Votre Nom </p>
-          </div>
-  </div>
     
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">Invalid Date</p>
-    </div>
-  </div>
   
     
   </div>
@@ -165,47 +158,89 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="bienvenue-sur-lanalyse-de-linnovation-et-de-lemploi" class="level1">
-<h1>Bienvenue sur l’Analyse de l’Innovation et de l’Emploi</h1>
-<hr>
-<section id="objectifs-de-cette-analyse" class="level2">
-<h2 class="anchored" data-anchor-id="objectifs-de-cette-analyse">Objectifs de cette Analyse</h2>
-<ol type="1">
-<li>Identifier les secteurs les plus innovants et leurs impacts sur l’emploi.</li>
-<li>Comprendre les compétences les plus demandées liées à l’innovation.</li>
-<li>Explorer les relations entre brevets, salaires, et offres d’emploi.</li>
-<li>Visualiser les données pour des interprétations approfondies et compréhensibles.</li>
-</ol>
-<hr>
+<section id="section" class="level2">
+<h2 class="anchored" data-anchor-id="section"></h2>
 </section>
-<section id="résumé-des-sections" class="level2">
-<h2 class="anchored" data-anchor-id="résumé-des-sections">Résumé des Sections</h2>
-<ol type="1">
-<li><strong>Relation entre Innovation et Salaires</strong> :
-<ul>
-<li>Une analyse des tendances entre brevets déposés et rémunération.</li>
-</ul></li>
-<li><strong>Relation entre Innovation et Emplois</strong> :
-<ul>
-<li>Découvrez comment l’innovation stimule la création d’opportunités.</li>
-</ul></li>
-<li><strong>Compétences Clés Associées à l’Innovation</strong> :
-<ul>
-<li>Les compétences les plus valorisées dans les entreprises innovantes.</li>
-</ul></li>
-<li><strong>Focus sur les Secteurs et Codes IPC</strong> :
-<ul>
-<li>Une exploration des leaders en innovation et des classifications industrielles.</li>
-</ul></li>
-</ol>
-<hr>
+<section id="relation-entre-le-nombre-de-brevets-et-les-salaires-moyens" class="level2">
+<h2 class="anchored" data-anchor-id="relation-entre-le-nombre-de-brevets-et-les-salaires-moyens">Relation entre le nombre de brevets et les salaires moyens</h2>
+<p>Ce graphique représente la relation entre le nombre de brevets déposés et les salaires moyens. La tendance observée est non linéaire, avec une forme en U inversé. Les entreprises déposant peu de brevets affichent des salaires moyens élevés, tandis que celles ayant un nombre modéré de brevets connaissent une diminution notable des salaires. En revanche, pour les entreprises très innovantes (nombre de brevets supérieur à 4000), les salaires augmentent à nouveau. Cela suggère une relation complexe entre innovation et rémunération, probablement influencée par d’autres facteurs comme la taille de l’entreprise ou le secteur d’activité.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="./-Analyse_des_données_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
 </section>
-<section id="commencez-votre-exploration" class="level2">
-<h2 class="anchored" data-anchor-id="commencez-votre-exploration">Commencez votre Exploration</h2>
-<p>Cliquez sur les liens dans la table des matières pour explorer chaque analyse en détail.</p>
+<section id="relation-entre-le-nombre-de-brevets-et-les-offres-demploi" class="level2">
+<h2 class="anchored" data-anchor-id="relation-entre-le-nombre-de-brevets-et-les-offres-demploi">Relation entre le nombre de brevets et les offres d’emploi</h2>
+<p>Ce graphique montre une corrélation positive entre le nombre de brevets et les offres d’emploi. Les entreprises les plus innovantes, ayant un nombre élevé de brevets, génèrent généralement davantage d’offres d’emploi. Cela souligne le lien entre innovation technologique et opportunités économiques.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="./-Analyse_des_données_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="top-10-des-compétences-associées-à-linnovation" class="level2">
+<h2 class="anchored" data-anchor-id="top-10-des-compétences-associées-à-linnovation">Top 10 des compétences associées à l’innovation</h2>
+<p>Ce graphique met en évidence les 10 compétences les plus associées à l’innovation, mesurées par le nombre total de brevets. La compétence “équipe” se distingue comme la plus importante, soulignant l’importance du travail collaboratif dans les entreprises innovantes. Des compétences techniques comme “git”, “python”, et “contrôle de gestion” reflètent le rôle crucial des outils de programmation et de gestion de code. Par ailleurs, des compétences transversales comme la “communication” et la “gestion de projets” démontrent leur pertinence dans la coordination des efforts d’innovation.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="./-Analyse_des_données_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div class="wordcloud2 html-widget html-fill-item" id="htmlwidget-17d36164499b98bd4fdc" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-17d36164499b98bd4fdc">{"x":{"word":["équipe","git","communication","python","anglais","statistique","programmation","gestion de projets","modélisation","contrôle de version"],"freq":[14178,8574,5957,5389,4825,4389,4363,4284,4284,4247],"fontFamily":"Segoe UI","fontWeight":"bold","color":"random-light","minSize":0,"weightFactor":0.008887008040626322,"backgroundColor":"white","gridSize":0,"minRotation":-0.7853981633974483,"maxRotation":0.7853981633974483,"shuffle":true,"rotateRatio":0.4,"shape":"circle","ellipticity":0.65,"figBase64":null,"hover":null},"evals":[],"jsHooks":{"render":[{"code":"function(el,x){\n                        console.log(123);\n                        if(!iii){\n                          window.location.reload();\n                          iii = False;\n\n                        }\n  }","data":null}]}}</script>
+</div>
+</div>
+</section>
+<section id="top-5-des-secteurs-ayant-fait-beaucoup-doffre-demploi" class="level2">
+<h2 class="anchored" data-anchor-id="top-5-des-secteurs-ayant-fait-beaucoup-doffre-demploi">Top 5 des Secteurs ayant fait beaucoup d’offre d’emploi</h2>
+<p>Ce graphique montre les 5 secteurs qui ont généré le plus d’offres d’emploi. En tête, le secteur informatique et ESN domine largement, ce qui reflète la forte demande pour des compétences technologiques et numériques.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="./-Analyse_des_données_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="top-10-des-compétences-associées-avec-salaire" class="level2">
+<h2 class="anchored" data-anchor-id="top-10-des-compétences-associées-avec-salaire">Top 10 des compétences associées avec salaire</h2>
+<div class="cell">
+<div class="cell-output-display">
+<div class="wordcloud2 html-widget html-fill-item" id="htmlwidget-caa96f217d3f58c1a938" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-caa96f217d3f58c1a938">{"x":{"word":["proactive","adaptabilité","collecte de données","compétences en présentation","gestion du temps","serieux","visualisation de donnée","créativité","résolution de problèmes","français","matplotlib","seaborn","team player","azure","google cloud","autonome","autonôme","hadoop","optimisation","aws","spark","communication","intelligence artificielle","nlp","statistique","collaboration","curiosité","modélisation","data visualization","forecasting","prévision","r studio","power bi","rapport","équipe","git","dataviz","python","proactif","excel","reporting","bases de donnée","sql","anglais","tableau","a","b testing","french","na","programmation"],"freq":[90000,87744,76372,75000,70000,70000,65914.66666666667,65000,63581.33333333334,61072,60000,60000,60000,59511.90476190476,58375,58152.22222222223,58152.22222222223,58100,57404.76190476191,57395.83333333334,57097.22222222223,57029.5,56857.14285714286,56666.66666666666,56263.7,56118.57575757576,55666.66666666666,55543.46153846154,55000,55000,55000,55000,54964,54792,54597.52132067728,54533.252228164,54333.33333333334,54047.21218847745,53850,53347.15476190476,53346.74725274726,53286.47619047619,52767.62121212121,52463.47222222222,51653.73529411765,50000,50000,50000,49875,49297.9898989899],"fontFamily":"Segoe UI","fontWeight":"bold","color":"random-light","minSize":0,"weightFactor":0.0016,"backgroundColor":"white","gridSize":0,"minRotation":-0.7853981633974483,"maxRotation":0.7853981633974483,"shuffle":true,"rotateRatio":0.4,"shape":"circle","ellipticity":0.65,"figBase64":null,"hover":null},"evals":[],"jsHooks":{"render":[{"code":"function(el,x){\n                        console.log(123);\n                        if(!iii){\n                          window.location.reload();\n                          iii = False;\n\n                        }\n  }","data":null}]}}</script>
+</div>
+</div>
+<p>Ce wordcloud montre les compétences les plus souvent associées aux salaires élevés, en fonction de leur importance relative. On remarque que des qualités comme la proactivité et l’adaptabilité prennent une grande place, ce qui prouve leur rôle clé dans les postes bien payés. Côté technique, des outils spécifiques comme AWS, Seaborn ou Excel sont aussi très valorisés, ce qui confirme que les compétences spécialisées sont essentielles. On retrouve également des compétences en IA, notamment le NLP (traitement du langage naturel), qui montrent l’importance des technologies innovantes. Les langues, comme le français, ont aussi leur importance, surtout dans des contextes internationaux. Enfin, des qualités personnelles comme l’autonomie et le sérieux sont clairement associées à de bons salaires, ce qui prouve que les entreprises recherchent un mix entre compétences techniques et qualités humaines.</p>
+</section>
+<section id="graphique-des-5-meilleurs-codes-ipc-par-nombre-de-brevets" class="level2">
+<h2 class="anchored" data-anchor-id="graphique-des-5-meilleurs-codes-ipc-par-nombre-de-brevets">Graphique des 5 meilleurs codes IPC par nombre de brevets</h2>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="./-Analyse_des_données_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Ce graphique présente les 5 principaux codes IPC par nombre de brevets déposés. Les deux premiers codes, A61B et A61P, se démarquent nettement. A61B (technologies médicales) et A61P (préparations thérapeutiques) montrent une forte activité dans les secteurs de la santé et de la pharmacie, suggérant une demande élevée en compétences dans la recherche médicale et l’ingénierie biomédicale. B65D (emballages et conteneurs) et A61F (prothèses et implants) indiquent une présence notable d’innovations en logistique et dans les dispositifs médicaux. Enfin, H04L (transmission de données numériques) reflète l’importance des technologies de l’information et des télécommunications, où la demande en compétences numériques telles que réseaux et cybersécurité est forte. Ce graphique met en évidence une concentration des brevets dans les secteurs médicaux, pharmaceutiques et technologiques, suggérant que ces domaines sont moteurs d’innovation et fortement associés à une demande croissante de profils qualifiés dans la science des données, la R&amp;D et l’ingénierie spécialisée.</p>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->

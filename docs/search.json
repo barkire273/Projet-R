@@ -1,0 +1,86 @@
+[
+  {
+    "objectID": "statistique_descriptives.html",
+    "href": "statistique_descriptives.html",
+    "title": "Statistique base brevet",
+    "section": "",
+    "text": "Cette analyse explore les relations entre les brevets et l’emploi à travers des statistiques descriptives et des visualisations."
+  },
+  {
+    "objectID": "statistique_descriptives.html#introduction",
+    "href": "statistique_descriptives.html#introduction",
+    "title": "Statistique base brevet",
+    "section": "",
+    "text": "Cette analyse explore les relations entre les brevets et l’emploi à travers des statistiques descriptives et des visualisations."
+  },
+  {
+    "objectID": " Analyse_des_données.html#relation-entre-le-nombre-de-brevets-et-les-salaires-moyens",
+    "href": " Analyse_des_données.html#relation-entre-le-nombre-de-brevets-et-les-salaires-moyens",
+    "title": "Analyse des données",
+    "section": "Relation entre le nombre de brevets et les salaires moyens",
+    "text": "Relation entre le nombre de brevets et les salaires moyens\nCe graphique représente la relation entre le nombre de brevets déposés et les salaires moyens. La tendance observée est non linéaire, avec une forme en U inversé. Les entreprises déposant peu de brevets affichent des salaires moyens élevés, tandis que celles ayant un nombre modéré de brevets connaissent une diminution notable des salaires. En revanche, pour les entreprises très innovantes (nombre de brevets supérieur à 4000), les salaires augmentent à nouveau. Cela suggère une relation complexe entre innovation et rémunération, probablement influencée par d’autres facteurs comme la taille de l’entreprise ou le secteur d’activité."
+  },
+  {
+    "objectID": " Analyse_des_données.html#relation-entre-le-nombre-de-brevets-et-les-offres-demploi",
+    "href": " Analyse_des_données.html#relation-entre-le-nombre-de-brevets-et-les-offres-demploi",
+    "title": "Analyse des données",
+    "section": "Relation entre le nombre de brevets et les offres d’emploi",
+    "text": "Relation entre le nombre de brevets et les offres d’emploi\nCe graphique montre une corrélation positive entre le nombre de brevets et les offres d’emploi. Les entreprises les plus innovantes, ayant un nombre élevé de brevets, génèrent généralement davantage d’offres d’emploi. Cela souligne le lien entre innovation technologique et opportunités économiques."
+  },
+  {
+    "objectID": " Analyse_des_données.html#top-10-des-compétences-associées-à-linnovation",
+    "href": " Analyse_des_données.html#top-10-des-compétences-associées-à-linnovation",
+    "title": "Analyse des données",
+    "section": "Top 10 des compétences associées à l’innovation",
+    "text": "Top 10 des compétences associées à l’innovation\nCe graphique met en évidence les 10 compétences les plus associées à l’innovation, mesurées par le nombre total de brevets. La compétence “équipe” se distingue comme la plus importante, soulignant l’importance du travail collaboratif dans les entreprises innovantes. Des compétences techniques comme “git”, “python”, et “contrôle de gestion” reflètent le rôle crucial des outils de programmation et de gestion de code. Par ailleurs, des compétences transversales comme la “communication” et la “gestion de projets” démontrent leur pertinence dans la coordination des efforts d’innovation."
+  },
+  {
+    "objectID": " Analyse_des_données.html#top-5-des-secteurs-ayant-fait-beaucoup-doffre-demploi",
+    "href": " Analyse_des_données.html#top-5-des-secteurs-ayant-fait-beaucoup-doffre-demploi",
+    "title": "Analyse des données",
+    "section": "Top 5 des Secteurs ayant fait beaucoup d’offre d’emploi",
+    "text": "Top 5 des Secteurs ayant fait beaucoup d’offre d’emploi\nCe graphique montre les 5 secteurs qui ont généré le plus d’offres d’emploi. En tête, le secteur informatique et ESN domine largement, ce qui reflète la forte demande pour des compétences technologiques et numériques."
+  },
+  {
+    "objectID": " Analyse_des_données.html#top-10-des-compétences-associées-avec-salaire",
+    "href": " Analyse_des_données.html#top-10-des-compétences-associées-avec-salaire",
+    "title": "Analyse des données",
+    "section": "Top 10 des compétences associées avec salaire",
+    "text": "Top 10 des compétences associées avec salaire\n\n\n\n\n\n\nCe wordcloud montre les compétences les plus souvent associées aux salaires élevés, en fonction de leur importance relative. On remarque que des qualités comme la proactivité et l’adaptabilité prennent une grande place, ce qui prouve leur rôle clé dans les postes bien payés. Côté technique, des outils spécifiques comme AWS, Seaborn ou Excel sont aussi très valorisés, ce qui confirme que les compétences spécialisées sont essentielles. On retrouve également des compétences en IA, notamment le NLP (traitement du langage naturel), qui montrent l’importance des technologies innovantes. Les langues, comme le français, ont aussi leur importance, surtout dans des contextes internationaux. Enfin, des qualités personnelles comme l’autonomie et le sérieux sont clairement associées à de bons salaires, ce qui prouve que les entreprises recherchent un mix entre compétences techniques et qualités humaines."
+  },
+  {
+    "objectID": " Analyse_des_données.html#graphique-des-5-meilleurs-codes-ipc-par-nombre-de-brevets",
+    "href": " Analyse_des_données.html#graphique-des-5-meilleurs-codes-ipc-par-nombre-de-brevets",
+    "title": "Analyse des données",
+    "section": "Graphique des 5 meilleurs codes IPC par nombre de brevets",
+    "text": "Graphique des 5 meilleurs codes IPC par nombre de brevets\n\n\n\n\n\n\n\n\n\nCe graphique présente les 5 principaux codes IPC par nombre de brevets déposés. Les deux premiers codes, A61B et A61P, se démarquent nettement. A61B (technologies médicales) et A61P (préparations thérapeutiques) montrent une forte activité dans les secteurs de la santé et de la pharmacie, suggérant une demande élevée en compétences dans la recherche médicale et l’ingénierie biomédicale. B65D (emballages et conteneurs) et A61F (prothèses et implants) indiquent une présence notable d’innovations en logistique et dans les dispositifs médicaux. Enfin, H04L (transmission de données numériques) reflète l’importance des technologies de l’information et des télécommunications, où la demande en compétences numériques telles que réseaux et cybersécurité est forte. Ce graphique met en évidence une concentration des brevets dans les secteurs médicaux, pharmaceutiques et technologiques, suggérant que ces domaines sont moteurs d’innovation et fortement associés à une demande croissante de profils qualifiés dans la science des données, la R&D et l’ingénierie spécialisée."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Analyse des Données d’Innovation et d’Emploi",
+    "section": "",
+    "text": "Identifier les secteurs les plus innovants et leurs impacts sur l’emploi.\nComprendre les compétences les plus demandées liées à l’innovation.\nExplorer les relations entre brevets, salaires, et offres d’emploi.\nVisualiser les données pour des interprétations approfondies et compréhensibles.\n\n\n\n\n\n\nRelation entre Innovation et Salaires :\n\nUne analyse des tendances entre brevets déposés et rémunération.\n\nRelation entre Innovation et Emplois :\n\nDécouvrez comment l’innovation stimule la création d’opportunités.\n\nCompétences Clés Associées à l’Innovation :\n\nLes compétences les plus valorisées dans les entreprises innovantes.\n\nFocus sur les Secteurs et Codes IPC :\n\nUne exploration des leaders en innovation et des classifications industrielles.\n\n\n\n\n\n\nCliquez sur les liens dans la table des matières pour explorer chaque analyse en détail."
+  },
+  {
+    "objectID": "index.html#objectifs-de-cette-analyse",
+    "href": "index.html#objectifs-de-cette-analyse",
+    "title": "Analyse des Données d’Innovation et d’Emploi",
+    "section": "",
+    "text": "Identifier les secteurs les plus innovants et leurs impacts sur l’emploi.\nComprendre les compétences les plus demandées liées à l’innovation.\nExplorer les relations entre brevets, salaires, et offres d’emploi.\nVisualiser les données pour des interprétations approfondies et compréhensibles."
+  },
+  {
+    "objectID": "index.html#résumé-des-sections",
+    "href": "index.html#résumé-des-sections",
+    "title": "Analyse des Données d’Innovation et d’Emploi",
+    "section": "",
+    "text": "Relation entre Innovation et Salaires :\n\nUne analyse des tendances entre brevets déposés et rémunération.\n\nRelation entre Innovation et Emplois :\n\nDécouvrez comment l’innovation stimule la création d’opportunités.\n\nCompétences Clés Associées à l’Innovation :\n\nLes compétences les plus valorisées dans les entreprises innovantes.\n\nFocus sur les Secteurs et Codes IPC :\n\nUne exploration des leaders en innovation et des classifications industrielles."
+  },
+  {
+    "objectID": "index.html#commencez-votre-exploration",
+    "href": "index.html#commencez-votre-exploration",
+    "title": "Analyse des Données d’Innovation et d’Emploi",
+    "section": "",
+    "text": "Cliquez sur les liens dans la table des matières pour explorer chaque analyse en détail."
+  }
+]
