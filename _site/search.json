@@ -4,77 +4,14 @@
     "href": "Sans titre.html",
     "title": "Untitled",
     "section": "",
-    "text": "## Introduction\n\n#Cette analyse explore les relations entre innovation et emploi en utilisant des statistiques descriptives, des visualisations et des analyses spécifiques.\n\n## Analyse en un seul bloc\n\n# Chargement des bibliothèques\nlibrary(dplyr) \n\n\nAttaching package: 'dplyr'\n\n\nThe following objects are masked from 'package:stats':\n\n    filter, lag\n\n\nThe following objects are masked from 'package:base':\n\n    intersect, setdiff, setequal, union\n\nlibrary(readr)\nlibrary(stringr)\nlibrary(tidyr)\nlibrary(stringi)\nlibrary(data.table)\n\n\nAttaching package: 'data.table'\n\n\nThe following objects are masked from 'package:dplyr':\n\n    between, first, last\n\nlibrary(ggplot2)\nlibrary(viridis)\n\nLoading required package: viridisLite\n\nlibrary(wordcloud2)\n\n# Chargement des données\nbase_brevets &lt;- read_csv(\"~/Desktop/Projet R/base_brevets.csv\")\n\nRows: 8246 Columns: 8\n\n\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (6): firm_name, ipc_main_code, ipc_main_desc, ipc_second_code, ipc_secon...\ndbl (2): n_patents, addr_dept_main\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\nbase_emp &lt;- read_csv(\"~/Desktop/Projet R/base_emp.csv\")\n\nRows: 701 Columns: 7\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (3): firm_name, sector_main, top_skill_req\ndbl (4): n_offres, avg_req_exp, avg_wage, addr_dept_main\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\n# Jointure des bases\nbase_emp_inno &lt;- full_join(base_brevets, base_emp, by = \"firm_name\")\n\nWarning in full_join(base_brevets, base_emp, by = \"firm_name\"): Detected an unexpected many-to-many relationship between `x` and `y`.\nℹ Row 5582 of `x` matches multiple rows in `y`.\nℹ Row 517 of `y` matches multiple rows in `x`.\nℹ If a many-to-many relationship is expected, set `relationship =\n  \"many-to-many\"` to silence this warning.\n\n# Vérification des premières lignes\nhead(base_emp_inno)\n\n# A tibble: 6 × 14\n  firm_name                n_patents ipc_main_code ipc_main_desc ipc_second_code\n  &lt;chr&gt;                        &lt;dbl&gt; &lt;chr&gt;         &lt;chr&gt;         &lt;chr&gt;          \n1 'add-one'                        1 A62B          DEVICES       &lt;NA&gt;           \n2 'apollon solar'                  9 H01L          SEMICONDUCTO… &lt;NA&gt;           \n3 's.a.g.a.c.e.' services…         1 B09B          DISPOSAL OF … &lt;NA&gt;           \n4 1/4 vin                          4 B65B          MACHINES      &lt;NA&gt;           \n5 10-vins                          1 B01F          MIXING        &lt;NA&gt;           \n6 1st surgiconcept                 2 A61B          DIAGNOSIS; S… A61L           \n# ℹ 9 more variables: ipc_second_desc &lt;chr&gt;, addr_city_main &lt;chr&gt;,\n#   addr_dept_main.x &lt;dbl&gt;, n_offres &lt;dbl&gt;, sector_main &lt;chr&gt;,\n#   avg_req_exp &lt;dbl&gt;, top_skill_req &lt;chr&gt;, avg_wage &lt;dbl&gt;,\n#   addr_dept_main.y &lt;dbl&gt;\n\n# Statistiques descriptives - Base Brevets\nbase_brevets %&gt;%\n  summarise(\n    Moyenne = mean(n_patents, na.rm = TRUE),\n    Ecart_Type = sd(n_patents, na.rm = TRUE),\n    Valeurs_Manquantes = sum(is.na(n_patents)),\n    Minimum = min(n_patents, na.rm = TRUE),\n    Maximum = max(n_patents, na.rm = TRUE)\n  )\n\n# A tibble: 1 × 5\n  Moyenne Ecart_Type Valeurs_Manquantes Minimum Maximum\n    &lt;dbl&gt;      &lt;dbl&gt;              &lt;int&gt;   &lt;dbl&gt;   &lt;dbl&gt;\n1    11.3       112.                  0       1    4870\n\n# Top 5 des entreprises par nombre de brevets\nbase_brevets %&gt;%\n  arrange(desc(n_patents)) %&gt;%\n  slice_head(n = 5) %&gt;%\n  select(firm_name, n_patents)\n\n# A tibble: 5 × 2\n  firm_name                                                      n_patents\n  &lt;chr&gt;                                                              &lt;dbl&gt;\n1 commissariat a l'energie atomique et aux energies alternatives      4870\n2 cnrs                                                                4247\n3 alcatel                                                             3180\n4 michelin                                                            2820\n5 safran                                                              2407\n\n# Top 5 des entreprises par fréquence\nbase_brevets %&gt;%\n  group_by(firm_name) %&gt;%\n  summarise(count = n(), .groups = \"drop\") %&gt;%\n  arrange(desc(count)) %&gt;%\n  slice_head(n = 5)\n\n# A tibble: 5 × 2\n  firm_name                                                                count\n  &lt;chr&gt;                                                                    &lt;int&gt;\n1 orange                                                                       2\n2 'add-one'                                                                    1\n3 'apollon solar'                                                              1\n4 's.a.g.a.c.e.' services en administration, gestion et applications au c…     1\n5 1/4 vin                                                                      1\n\n# Statistiques descriptives - Emploi\nbase_emp %&gt;%\n  summarise(\n    Moyenne = mean(n_offres, na.rm = TRUE),\n    Ecart_Type = sd(n_offres, na.rm = TRUE),\n    Valeurs_Manquantes = sum(is.na(n_offres)),\n    Minimum = min(n_offres, na.rm = TRUE),\n    Maximum = max(n_offres, na.rm = TRUE)\n  )\n\n# A tibble: 1 × 5\n  Moyenne Ecart_Type Valeurs_Manquantes Minimum Maximum\n    &lt;dbl&gt;      &lt;dbl&gt;              &lt;int&gt;   &lt;dbl&gt;   &lt;dbl&gt;\n1    4.27       8.37                  0       1      68\n\nbase_emp %&gt;%\n  summarise(\n    Moyenne = mean(avg_wage, na.rm = TRUE),\n    Ecart_Type = sd(avg_wage, na.rm = TRUE),\n    Valeurs_Manquantes = sum(is.na(avg_wage)),\n    Minimum = min(avg_wage, na.rm = TRUE),\n    Maximum = max(avg_wage, na.rm = TRUE)\n  )\n\n# A tibble: 1 × 5\n  Moyenne Ecart_Type Valeurs_Manquantes Minimum Maximum\n    &lt;dbl&gt;      &lt;dbl&gt;              &lt;int&gt;   &lt;dbl&gt;   &lt;dbl&gt;\n1  53230.     15091.                558    9600  100000\n\n# Visualisation - Relation nombre de brevets vs salaire moyen\nbase_emp_inno_clean &lt;- base_emp_inno %&gt;%\n  filter(!is.na(avg_wage) & !is.na(n_patents) & avg_wage &gt; 0 & n_patents &gt; 0)\n\nggplot(base_emp_inno_clean, aes(x = n_patents, y = avg_wage)) +\n  geom_point(aes(color = n_patents, size = avg_wage), alpha = 0.8) +\n  scale_color_viridis_c(option = \"plasma\", name = \"Nombre de brevets\") +\n  scale_size_continuous(range = c(3, 10), name = \"Salaire moyen\") +\n  geom_smooth(method = \"loess\", color = \"darkred\", se = TRUE, fill = \"pink\", linetype = \"dashed\") +\n  labs(\n    title = \"Relation entre le Nombre de Brevets et les Salaires Moyens\",\n    x = \"Nombre de Brevets\",\n    y = \"Salaire Moyen\"\n  ) +\n  theme_minimal()\n\n`geom_smooth()` using formula = 'y ~ x'\n\n\nWarning in simpleLoess(y, x, w, span, degree = degree, parametric = parametric,\n: span too small.  fewer data values than degrees of freedom.\n\n\nWarning in simpleLoess(y, x, w, span, degree = degree, parametric = parametric,\n: pseudoinverse used at 210.92\n\n\nWarning in simpleLoess(y, x, w, span, degree = degree, parametric = parametric,\n: neighborhood radius 2609.1\n\n\nWarning in simpleLoess(y, x, w, span, degree = degree, parametric = parametric,\n: reciprocal condition number 0\n\n\nWarning in simpleLoess(y, x, w, span, degree = degree, parametric = parametric,\n: There are other near singularities as well. 2.094e+06\n\n\nWarning in predLoess(object$y, object$x, newx = if (is.null(newdata)) object$x\nelse if (is.data.frame(newdata))\nas.matrix(model.frame(delete.response(terms(object)), : span too small.  fewer\ndata values than degrees of freedom.\n\n\nWarning in predLoess(object$y, object$x, newx = if (is.null(newdata)) object$x\nelse if (is.data.frame(newdata))\nas.matrix(model.frame(delete.response(terms(object)), : pseudoinverse used at\n210.92\n\n\nWarning in predLoess(object$y, object$x, newx = if (is.null(newdata)) object$x\nelse if (is.data.frame(newdata))\nas.matrix(model.frame(delete.response(terms(object)), : neighborhood radius\n2609.1\n\n\nWarning in predLoess(object$y, object$x, newx = if (is.null(newdata)) object$x\nelse if (is.data.frame(newdata))\nas.matrix(model.frame(delete.response(terms(object)), : reciprocal condition\nnumber 0\n\n\nWarning in predLoess(object$y, object$x, newx = if (is.null(newdata)) object$x\nelse if (is.data.frame(newdata))\nas.matrix(model.frame(delete.response(terms(object)), : There are other near\nsingularities as well. 2.094e+06\n\n\nWarning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning\n-Inf\n\n\n\n\n\n\n\n\n# Visualisation - Relation nombre de brevets vs nombre d'offres\nbase_emp_inno_clean &lt;- base_emp_inno %&gt;%\n  filter(!is.na(n_offres) & !is.na(n_patents) & n_patents &gt; 0 & n_offres &gt; 0)\n\nggplot(base_emp_inno_clean, aes(x = n_patents, y = n_offres)) +\n  geom_point(aes(color = n_patents, size = n_offres), alpha = 0.8) +\n  scale_color_viridis_c(option = \"plasma\", name = \"Nombre de brevets\") +\n  scale_size_continuous(range = c(3, 10), name = \"Nombre d'Offres\") +\n  geom_smooth(method = \"loess\", color = \"darkred\", se = TRUE, fill = \"lightblue\", linetype = \"dashed\") +\n  labs(\n    title = \"Relation entre le Nombre de Brevets et les Offres d'Emploi\",\n    x = \"Nombre de Brevets\",\n    y = \"Nombre d'Offres\"\n  ) +\n  theme_minimal()\n\n`geom_smooth()` using formula = 'y ~ x'\n\n\n\n\n\n\n\n\n# Analyse des compétences - Top 10 des compétences associées à l'innovation\n\ntop_skills &lt;- base_emp_inno %&gt;%\n  filter(!is.na(top_skill_req), n_patents &gt; 0) %&gt;%\n  separate_rows(top_skill_req, sep = \"[,;/|]\") %&gt;%\n  mutate(\n    top_skill_req = str_to_lower(top_skill_req),\n    top_skill_req = str_replace_all(top_skill_req, \"[[:punct:]]\", \"\"),\n    top_skill_req = str_squish(top_skill_req)\n  ) %&gt;%\n  group_by(top_skill_req) %&gt;%\n  summarise(total_patents = sum(n_patents, na.rm = TRUE), .groups = \"drop\") %&gt;%\n  arrange(desc(total_patents)) %&gt;%\n  slice_head(n = 10)\n\nggplot(top_skills, aes(x = reorder(top_skill_req, total_patents), y = total_patents)) +\n  geom_col(fill = \"steelblue\") +\n  coord_flip() +\n  labs(\n    title = \"Top 10 des Compétences Associées à l'Innovation\",\n    x = \"Compétences\",\n    y = \"Nombre Total de Brevets\"\n  ) +\n  theme_minimal()\n\n\n\n\n\n\n\nwordcloud_data &lt;- top_skills %&gt;%\n  rename(word = top_skill_req, freq = total_patents)\nwordcloud2(wordcloud_data, size = 0.7, color = \"random-light\", backgroundColor = \"white\")\n\n\n\n\n\nYou can add options to executable code like this\n\n\n[1] 4\n\n\nThe echo: false option disables the printing of code (only output is displayed)."
+    "text": "Attaching package: 'dplyr'\n\n\nThe following objects are masked from 'package:stats':\n\n    filter, lag\n\n\nThe following objects are masked from 'package:base':\n\n    intersect, setdiff, setequal, union\n\n\n\nAttaching package: 'data.table'\n\n\nThe following objects are masked from 'package:dplyr':\n\n    between, first, last\n\n\nLoading required package: viridisLite\n\n\nRows: 8246 Columns: 8\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (6): firm_name, ipc_main_code, ipc_main_desc, ipc_second_code, ipc_secon...\ndbl (2): n_patents, addr_dept_main\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\nRows: 701 Columns: 7\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (3): firm_name, sector_main, top_skill_req\ndbl (4): n_offres, avg_req_exp, avg_wage, addr_dept_main\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\n\nWarning in full_join(base_brevets, base_emp, by = \"firm_name\"): Detected an unexpected many-to-many relationship between `x` and `y`.\nℹ Row 5582 of `x` matches multiple rows in `y`.\nℹ Row 517 of `y` matches multiple rows in `x`.\nℹ If a many-to-many relationship is expected, set `relationship =\n  \"many-to-many\"` to silence this warning.\n\n\n# A tibble: 6 × 14\n  firm_name                n_patents ipc_main_code ipc_main_desc ipc_second_code\n  &lt;chr&gt;                        &lt;dbl&gt; &lt;chr&gt;         &lt;chr&gt;         &lt;chr&gt;          \n1 'add-one'                        1 A62B          DEVICES       &lt;NA&gt;           \n2 'apollon solar'                  9 H01L          SEMICONDUCTO… &lt;NA&gt;           \n3 's.a.g.a.c.e.' services…         1 B09B          DISPOSAL OF … &lt;NA&gt;           \n4 1/4 vin                          4 B65B          MACHINES      &lt;NA&gt;           \n5 10-vins                          1 B01F          MIXING        &lt;NA&gt;           \n6 1st surgiconcept                 2 A61B          DIAGNOSIS; S… A61L           \n# ℹ 9 more variables: ipc_second_desc &lt;chr&gt;, addr_city_main &lt;chr&gt;,\n#   addr_dept_main.x &lt;dbl&gt;, n_offres &lt;dbl&gt;, sector_main &lt;chr&gt;,\n#   avg_req_exp &lt;dbl&gt;, top_skill_req &lt;chr&gt;, avg_wage &lt;dbl&gt;,\n#   addr_dept_main.y &lt;dbl&gt;\n\n\n# A tibble: 1 × 5\n  Moyenne Ecart_Type Valeurs_Manquantes Minimum Maximum\n    &lt;dbl&gt;      &lt;dbl&gt;              &lt;int&gt;   &lt;dbl&gt;   &lt;dbl&gt;\n1    11.3       112.                  0       1    4870\n\n\n# A tibble: 5 × 2\n  firm_name                                                      n_patents\n  &lt;chr&gt;                                                              &lt;dbl&gt;\n1 commissariat a l'energie atomique et aux energies alternatives      4870\n2 cnrs                                                                4247\n3 alcatel                                                             3180\n4 michelin                                                            2820\n5 safran                                                              2407\n\n\n# A tibble: 5 × 2\n  firm_name                                                                count\n  &lt;chr&gt;                                                                    &lt;int&gt;\n1 orange                                                                       2\n2 'add-one'                                                                    1\n3 'apollon solar'                                                              1\n4 's.a.g.a.c.e.' services en administration, gestion et applications au c…     1\n5 1/4 vin                                                                      1\n\n\n# A tibble: 1 × 5\n  Moyenne Ecart_Type Valeurs_Manquantes Minimum Maximum\n    &lt;dbl&gt;      &lt;dbl&gt;              &lt;int&gt;   &lt;dbl&gt;   &lt;dbl&gt;\n1    4.27       8.37                  0       1      68\n\n\n# A tibble: 1 × 5\n  Moyenne Ecart_Type Valeurs_Manquantes Minimum Maximum\n    &lt;dbl&gt;      &lt;dbl&gt;              &lt;int&gt;   &lt;dbl&gt;   &lt;dbl&gt;\n1  53230.     15091.                558    9600  100000\n\n\n`geom_smooth()` using formula = 'y ~ x'\n\n\nWarning in simpleLoess(y, x, w, span, degree = degree, parametric = parametric,\n: span too small.  fewer data values than degrees of freedom.\n\n\nWarning in simpleLoess(y, x, w, span, degree = degree, parametric = parametric,\n: pseudoinverse used at 210.92\n\n\nWarning in simpleLoess(y, x, w, span, degree = degree, parametric = parametric,\n: neighborhood radius 2609.1\n\n\nWarning in simpleLoess(y, x, w, span, degree = degree, parametric = parametric,\n: reciprocal condition number 0\n\n\nWarning in simpleLoess(y, x, w, span, degree = degree, parametric = parametric,\n: There are other near singularities as well. 2.094e+06\n\n\nWarning in predLoess(object$y, object$x, newx = if (is.null(newdata)) object$x\nelse if (is.data.frame(newdata))\nas.matrix(model.frame(delete.response(terms(object)), : span too small.  fewer\ndata values than degrees of freedom.\n\n\nWarning in predLoess(object$y, object$x, newx = if (is.null(newdata)) object$x\nelse if (is.data.frame(newdata))\nas.matrix(model.frame(delete.response(terms(object)), : pseudoinverse used at\n210.92\n\n\nWarning in predLoess(object$y, object$x, newx = if (is.null(newdata)) object$x\nelse if (is.data.frame(newdata))\nas.matrix(model.frame(delete.response(terms(object)), : neighborhood radius\n2609.1\n\n\nWarning in predLoess(object$y, object$x, newx = if (is.null(newdata)) object$x\nelse if (is.data.frame(newdata))\nas.matrix(model.frame(delete.response(terms(object)), : reciprocal condition\nnumber 0\n\n\nWarning in predLoess(object$y, object$x, newx = if (is.null(newdata)) object$x\nelse if (is.data.frame(newdata))\nas.matrix(model.frame(delete.response(terms(object)), : There are other near\nsingularities as well. 2.094e+06\n\n\nWarning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning\n-Inf\n\n\n\n\n\n\n\n\n\n`geom_smooth()` using formula = 'y ~ x'\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nYou can add options to executable code like this\n\n\n[1] 4\n\n\nThe echo: false option disables the printing of code (only output is displayed)."
   },
   {
     "objectID": "about.html",
     "href": "about.html",
     "title": "About",
     "section": "",
-    "text": "About this site\n\n1 + 1\n\n[1] 2"
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Analyse des Données d’Innovation et d’Emploi",
-    "section": "",
-    "text": "&lt;img src=\"images/innovation_employment.jpg\" alt=\"Innovation et Emploi\" style=\"width: 70%; border-radius: 15px; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);\"&gt;\n\n\n\n\n\nIdentifier les secteurs les plus innovants et leurs impacts sur l’emploi.\nComprendre les compétences les plus demandées liées à l’innovation.\nExplorer les relations entre brevets, salaires, et offres d’emploi.\nVisualiser les données pour des interprétations approfondies et compréhensibles.\n\n\n\n\n\n\nRelation entre Innovation et Salaires :\n\nUne analyse des tendances entre brevets déposés et rémunération.\n\nRelation entre Innovation et Emplois :\n\nDécouvrez comment l’innovation stimule la création d’opportunités.\n\nCompétences Clés Associées à l’Innovation :\n\nLes compétences les plus valorisées dans les entreprises innovantes.\n\nFocus sur les Secteurs et Codes IPC :\n\nUne exploration des leaders en innovation et des classifications industrielles.\n\n\n\n\n\n\nCliquez sur les liens dans la table des matières pour explorer chaque analyse en détail."
-  },
-  {
-    "objectID": "stat.html",
-    "href": "stat.html",
-    "title": "berger_bourlloin",
-    "section": "",
-    "text": "Cette analyse explore les relations entre innovation et emploi en utilisant des statistiques descriptives, des visualisations et des analyses spécifiques."
-  },
-  {
-    "objectID": "stat.html#analyse-en-un-seul-bloc",
-    "href": "stat.html#analyse-en-un-seul-bloc",
-    "title": "Analyse Innovation et Emploi",
-    "section": "",
-    "text": "# A tibble: 6 × 14\n  firm_name                n_patents ipc_main_code ipc_main_desc ipc_second_code\n  &lt;chr&gt;                        &lt;dbl&gt; &lt;chr&gt;         &lt;chr&gt;         &lt;chr&gt;          \n1 'add-one'                        1 A62B          DEVICES       &lt;NA&gt;           \n2 'apollon solar'                  9 H01L          SEMICONDUCTO… &lt;NA&gt;           \n3 's.a.g.a.c.e.' services…         1 B09B          DISPOSAL OF … &lt;NA&gt;           \n4 1/4 vin                          4 B65B          MACHINES      &lt;NA&gt;           \n5 10-vins                          1 B01F          MIXING        &lt;NA&gt;           \n6 1st surgiconcept                 2 A61B          DIAGNOSIS; S… A61L           \n# ℹ 9 more variables: ipc_second_desc &lt;chr&gt;, addr_city_main &lt;chr&gt;,\n#   addr_dept_main.x &lt;dbl&gt;, n_offres &lt;dbl&gt;, sector_main &lt;chr&gt;,\n#   avg_req_exp &lt;dbl&gt;, top_skill_req &lt;chr&gt;, avg_wage &lt;dbl&gt;,\n#   addr_dept_main.y &lt;dbl&gt;\n\n\n\n\nStatistiques descriptives de n_patents\n\n\nMoyenne\nEcart_Type\nValeurs_Manquantes\nMinimum\nMaximum\n\n\n\n\n11.30548\n111.7698\n0\n1\n4870\n\n\n\n\n\n\n\n\n# A tibble: 5 × 2\n  firm_name                                                      n_patents\n  &lt;chr&gt;                                                              &lt;dbl&gt;\n1 commissariat a l'energie atomique et aux energies alternatives      4870\n2 cnrs                                                                4247\n3 alcatel                                                             3180\n4 michelin                                                            2820\n5 safran                                                              2407\n\n\n# A tibble: 5 × 2\n  firm_name                                                                count\n  &lt;chr&gt;                                                                    &lt;int&gt;\n1 orange                                                                       2\n2 'add-one'                                                                    1\n3 'apollon solar'                                                              1\n4 's.a.g.a.c.e.' services en administration, gestion et applications au c…     1\n5 1/4 vin                                                                      1\n\n\n# A tibble: 1 × 5\n  Moyenne Ecart_Type Valeurs_Manquantes Minimum Maximum\n    &lt;dbl&gt;      &lt;dbl&gt;              &lt;int&gt;   &lt;dbl&gt;   &lt;dbl&gt;\n1    4.27       8.37                  0       1      68\n\n\n# A tibble: 1 × 5\n  Moyenne Ecart_Type Valeurs_Manquantes Minimum Maximum\n    &lt;dbl&gt;      &lt;dbl&gt;              &lt;int&gt;   &lt;dbl&gt;   &lt;dbl&gt;\n1  53230.     15091.                558    9600  100000"
-  },
-  {
-    "objectID": "stat.html#introduction",
-    "href": "stat.html#introduction",
-    "title": "berger_bourlloin",
-    "section": "",
-    "text": "Cette analyse explore les relations entre innovation et emploi en utilisant des statistiques descriptives, des visualisations et des analyses spécifiques."
-  },
-  {
-    "objectID": "stat.html#chargement-des-bibliothèques-et-des-données",
-    "href": "stat.html#chargement-des-bibliothèques-et-des-données",
-    "title": "berger_bourlloin",
-    "section": "Chargement des Bibliothèques et des Données",
-    "text": "Chargement des Bibliothèques et des Données"
-  },
-  {
-    "objectID": "stat.html#statistiques-descriptives",
-    "href": "stat.html#statistiques-descriptives",
-    "title": "berger_bourlloin",
-    "section": "Statistiques Descriptives",
-    "text": "Statistiques Descriptives\n\nBase Brevets\n\n\n\n\nStatistiques descriptives de n_patents\n\n\nMoyenne\nEcart_Type\nValeurs_Manquantes\nMinimum\nMaximum\n\n\n\n\n11.30548\n111.7698\n0\n1\n4870\n\n\n\n\n\n\n\n\n\n\nTop 5 des Entreprises par Nombre de Brevets\n\n\n\n\nTop 5 des entreprises ayant déposé le plus de brevets\n\n\nfirm_name\nn_patents\n\n\n\n\ncommissariat a l'energie atomique et aux energies alternatives\n4870\n\n\ncnrs\n4247\n\n\nalcatel\n3180\n\n\nmichelin\n2820\n\n\nsafran\n2407\n\n\n\n\n\n\n\n\n\n\nStatistiques Emploi\n\nNombre d’Offres\n\n\n\n\nStatistiques descriptives de n_offres\n\n\nMoyenne\nEcart_Type\nValeurs_Manquantes\nMinimum\nMaximum\n\n\n\n\n4.272468\n8.370608\n0\n1\n68\n\n\n\n\n\n\n\n\n\n\nSalaire Moyen\n\n\n\n\nStatistiques descriptives des salaires moyens\n\n\nMoyenne\nEcart_Type\nValeurs_Manquantes\nMinimum\nMaximum\n\n\n\n\n53230.29\n15090.82\n558\n9600\n1e+05"
-  },
-  {
-    "objectID": "stat.html#visualisations",
-    "href": "stat.html#visualisations",
-    "title": "berger_bourlloin",
-    "section": "Visualisations",
-    "text": "Visualisations\n\nRelation Nombre de Brevets vs Salaire Moyen\n\n\n\n\n\n\n\n\n\n\n\nRelation Nombre de Brevets vs Nombre d’Offres"
-  },
-  {
-    "objectID": "stat.html#analyse-des-compétences",
-    "href": "stat.html#analyse-des-compétences",
-    "title": "berger_bourlloin",
-    "section": "Analyse des Compétences",
-    "text": "Analyse des Compétences\n\nTop 10 des Compétences Associées à l’Innovation"
-  },
-  {
-    "objectID": "stat.html#editor-visual",
-    "href": "stat.html#editor-visual",
-    "title": "stat",
-    "section": "editor: visual",
-    "text": "editor: visual"
+    "text": "About this site\n\n\n[1] 2"
   },
   {
     "objectID": "statistique_descriptives.html",
@@ -91,116 +28,11 @@
     "text": "Cette analyse explore les relations entre les brevets et l’emploi à travers des statistiques descriptives et des visualisations."
   },
   {
-    "objectID": "statistique_descriptives.html#chargement-des-bibliothèques-et-des-données",
-    "href": "statistique_descriptives.html#chargement-des-bibliothèques-et-des-données",
-    "title": "berger_bourlloin",
-    "section": "Chargement des Bibliothèques et des Données",
-    "text": "Chargement des Bibliothèques et des Données"
-  },
-  {
-    "objectID": "statistique_descriptives.html#statistiques-descriptives",
-    "href": "statistique_descriptives.html#statistiques-descriptives",
-    "title": "berger_bourlloin",
-    "section": "Statistiques Descriptives",
-    "text": "Statistiques Descriptives\n\nBase Brevets\n\n\n\n\nStatistiques descriptives de n_patents\n\n\nMoyenne\nEcart_Type\nValeurs_Manquantes\nMinimum\nMaximum\n\n\n\n\n11.30548\n111.7698\n0\n1\n4870\n\n\n\n\n\n\n\n\n\n\nTop 5 des Entreprises par Nombre de Brevets\n\n\n\n\nTop 5 des entreprises ayant déposé le plus de brevets\n\n\nfirm_name\nn_patents\n\n\n\n\ncommissariat a l'energie atomique et aux energies alternatives\n4870\n\n\ncnrs\n4247\n\n\nalcatel\n3180\n\n\nmichelin\n2820\n\n\nsafran\n2407\n\n\n\n\n\n\n\n\n\n\nStatistiques Emploi\n\nNombre d’Offres\n\n\n\n\nStatistiques descriptives de n_offres\n\n\nMoyenne\nEcart_Type\nValeurs_Manquantes\nMinimum\nMaximum\n\n\n\n\n4.272468\n8.370608\n0\n1\n68\n\n\n\n\n\n\n\n\n\n\nSalaire Moyen\n\n\n\n\nStatistiques descriptives des salaires moyens\n\n\nMoyenne\nEcart_Type\nValeurs_Manquantes\nMinimum\nMaximum\n\n\n\n\n53230.29\n15090.82\n558\n9600\n1e+05"
-  },
-  {
-    "objectID": " Analyse_des_données.html#relation-entre-le-nombre-de-brevets-et-les-salaires-moyens",
-    "href": " Analyse_des_données.html#relation-entre-le-nombre-de-brevets-et-les-salaires-moyens",
-    "title": "Analyse des données",
-    "section": "Relation entre le nombre de brevets et les salaires moyens",
-    "text": "Relation entre le nombre de brevets et les salaires moyens\nCe graphique représente la relation entre le nombre de brevets déposés et les salaires moyens. La tendance observée est non linéaire, avec une forme en U inversé. Les entreprises déposant peu de brevets affichent des salaires moyens élevés, tandis que celles ayant un nombre modéré de brevets connaissent une diminution notable des salaires. En revanche, pour les entreprises très innovantes (nombre de brevets supérieur à 4000), les salaires augmentent à nouveau. Cela suggère une relation complexe entre innovation et rémunération, probablement influencée par d’autres facteurs comme la taille de l’entreprise ou le secteur d’activité."
-  },
-  {
-    "objectID": " Analyse_des_données.html#relation-entre-le-nombre-de-brevets-et-les-offres-demplois",
-    "href": " Analyse_des_données.html#relation-entre-le-nombre-de-brevets-et-les-offres-demplois",
-    "title": "Analyse des données",
-    "section": "Relation entre le nombre de brevets et les offres d’emplois",
-    "text": "Relation entre le nombre de brevets et les offres d’emplois"
-  },
-  {
-    "objectID": " Analyse_des_données.html#top-10-des-compétences-associées-avec-linnovation",
-    "href": " Analyse_des_données.html#top-10-des-compétences-associées-avec-linnovation",
-    "title": "Analyse des données",
-    "section": "Top 10 des compétences associées avec l’innovation",
-    "text": "Top 10 des compétences associées avec l’innovation\n\n\nTop 10 des compétences les plus demandées en fonction du nombre de brevets\n\n\ntop_skill_req\ntotal_patents\n\n\n\n\néquipe\n14178\n\n\ngit\n8574\n\n\ncommunication\n5957\n\n\npython\n5389\n\n\nanglais\n4825\n\n\nstatistique\n4389\n\n\nprogrammation\n4363\n\n\ngestion de projets\n4284\n\n\nmodélisation\n4284\n\n\ncontrôle de version\n4247"
-  },
-  {
-    "objectID": " Analyse_des_données.html#top-5-des-secteurs-ayant-généré-des-offres-demploi",
-    "href": " Analyse_des_données.html#top-5-des-secteurs-ayant-généré-des-offres-demploi",
-    "title": "Analyse des données",
-    "section": "Top 5 des Secteurs ayant généré des offres d’emploi",
-    "text": "Top 5 des Secteurs ayant généré des offres d’emploi"
-  },
-  {
-    "objectID": " Analyse_des_données.html#graphique-des-5-meilleurs-codes-ipc-par-nombre-de-brevets",
-    "href": " Analyse_des_données.html#graphique-des-5-meilleurs-codes-ipc-par-nombre-de-brevets",
-    "title": "Analyse des données",
-    "section": "Graphique des 5 meilleurs codes IPC par nombre de brevets",
-    "text": "Graphique des 5 meilleurs codes IPC par nombre de brevets\n\n\n\n\n\n\n\n\n\nCe graphique présente les 5 principaux codes IPC par nombre de brevets déposés. Les deux premiers codes, A61B et A61P, se démarquent nettement. A61B (technologies médicales) et A61P (préparations thérapeutiques) montrent une forte activité dans les secteurs de la santé et de la pharmacie, suggérant une demande élevée en compétences dans la recherche médicale et l’ingénierie biomédicale. B65D (emballages et conteneurs) et A61F (prothèses et implants) indiquent une présence notable d’innovations en logistique et dans les dispositifs médicaux. Enfin, H04L (transmission de données numériques) reflète l’importance des technologies de l’information et des télécommunications, où la demande en compétences numériques telles que réseaux et cybersécurité est forte. Ce graphique met en évidence une concentration des brevets dans les secteurs médicaux, pharmaceutiques et technologiques, suggérant que ces domaines sont moteurs d’innovation et fortement associés à une demande croissante de profils qualifiés dans la science des données, la R&D et l’ingénierie spécialisée."
-  },
-  {
-    "objectID": " Analyse_des_données.html#introduction",
-    "href": " Analyse_des_données.html#introduction",
-    "title": "Analyse des Données",
-    "section": "Introduction",
-    "text": "Introduction\nCette analyse explore les relations entre l’innovation et l’emploi à travers des statistiques descriptives et des visualisations."
-  },
-  {
-    "objectID": " Analyse_des_données.html#relation-entre-le-nombre-de-brevets-et-les-offres-demploi",
-    "href": " Analyse_des_données.html#relation-entre-le-nombre-de-brevets-et-les-offres-demploi",
-    "title": "Analyse des données",
-    "section": "Relation entre le nombre de brevets et les offres d’emploi",
-    "text": "Relation entre le nombre de brevets et les offres d’emploi\nCe graphique montre une corrélation positive entre le nombre de brevets et les offres d’emploi. Les entreprises les plus innovantes, ayant un nombre élevé de brevets, génèrent généralement davantage d’offres d’emploi. Cela souligne le lien entre innovation technologique et opportunités économiques."
-  },
-  {
-    "objectID": " Analyse_des_données.html#top-10-des-compétences-associées-à-linnovation",
-    "href": " Analyse_des_données.html#top-10-des-compétences-associées-à-linnovation",
-    "title": "Analyse des données",
-    "section": "Top 10 des compétences associées à l’innovation",
-    "text": "Top 10 des compétences associées à l’innovation\nCe graphique met en évidence les 10 compétences les plus associées à l’innovation, mesurées par le nombre total de brevets. La compétence “équipe” se distingue comme la plus importante, soulignant l’importance du travail collaboratif dans les entreprises innovantes. Des compétences techniques comme “git”, “python”, et “contrôle de gestion” reflètent le rôle crucial des outils de programmation et de gestion de code. Par ailleurs, des compétences transversales comme la “communication” et la “gestion de projets” démontrent leur pertinence dans la coordination des efforts d’innovation."
-  },
-  {
-    "objectID": " Analyse_des_données.html#top-10-des-compétences-associées-aux-salaires-élevés",
-    "href": " Analyse_des_données.html#top-10-des-compétences-associées-aux-salaires-élevés",
-    "title": "Analyse des Données",
-    "section": "Top 10 des compétences associées aux salaires élevés",
-    "text": "Top 10 des compétences associées aux salaires élevés\n\n\n\n\n\n\nCe wordcloud montre les compétences les plus souvent associées aux salaires élevés. On remarque que des qualités comme la proactivité et l’adaptabilité prennent une grande place, prouvant leur rôle clé dans les postes bien payés. Des outils spécifiques comme AWS, Seaborn ou Excel sont aussi très valorisés."
-  },
-  {
-    "objectID": " Analyse_des_données.html#top-5-des-secteurs-ayant-fait-beaucoup-doffres-demploi",
-    "href": " Analyse_des_données.html#top-5-des-secteurs-ayant-fait-beaucoup-doffres-demploi",
-    "title": "Analyse des Données",
-    "section": "Top 5 des secteurs ayant fait beaucoup d’offres d’emploi",
-    "text": "Top 5 des secteurs ayant fait beaucoup d’offres d’emploi\n\n\n\n\n\n\n\n\n\nCe graphique montre les 5 secteurs qui ont généré le plus d’offres d’emploi. En tête, le secteur informatique et ESN domine largement, ce qui reflète la forte demande pour des compétences technologiques et numériques."
-  },
-  {
-    "objectID": " Analyse_des_données.html#top-5-des-secteurs-ayant-fait-beaucoup-doffre-demploi",
-    "href": " Analyse_des_données.html#top-5-des-secteurs-ayant-fait-beaucoup-doffre-demploi",
-    "title": "Analyse des données",
-    "section": "Top 5 des Secteurs ayant fait beaucoup d’offre d’emploi",
-    "text": "Top 5 des Secteurs ayant fait beaucoup d’offre d’emploi\nCe graphique montre les 5 secteurs qui ont généré le plus d’offres d’emploi. En tête, le secteur informatique et ESN domine largement, ce qui reflète la forte demande pour des compétences technologiques et numériques."
-  },
-  {
-    "objectID": " Analyse_des_données.html#top-10-des-compétences-associées-avec-salaire",
-    "href": " Analyse_des_données.html#top-10-des-compétences-associées-avec-salaire",
-    "title": "Analyse des données",
-    "section": "Top 10 des compétences associées avec salaire",
-    "text": "Top 10 des compétences associées avec salaire\n\n\n\n\n\n\nCe wordcloud montre les compétences les plus souvent associées aux salaires élevés, en fonction de leur importance relative. On remarque que des qualités comme la proactivité et l’adaptabilité prennent une grande place, ce qui prouve leur rôle clé dans les postes bien payés. Côté technique, des outils spécifiques comme AWS, Seaborn ou Excel sont aussi très valorisés, ce qui confirme que les compétences spécialisées sont essentielles. On retrouve également des compétences en IA, notamment le NLP (traitement du langage naturel), qui montrent l’importance des technologies innovantes. Les langues, comme le français, ont aussi leur importance, surtout dans des contextes internationaux. Enfin, des qualités personnelles comme l’autonomie et le sérieux sont clairement associées à de bons salaires, ce qui prouve que les entreprises recherchent un mix entre compétences techniques et qualités humaines."
-  },
-  {
-    "objectID": "index.html#bienvenue",
-    "href": "index.html#bienvenue",
+    "objectID": "index.html",
+    "href": "index.html",
     "title": "Analyse des Données d’Innovation et d’Emploi",
     "section": "",
-    "text": "Bienvenue dans cette analyse des données sur l’innovation et l’emploi. Ce projet explore les relations entre innovation, compétences clés et dynamiques de marché."
-  },
-  {
-    "objectID": "index.html#visualisations-et-analyses",
-    "href": "index.html#visualisations-et-analyses",
-    "title": "Analyse des Données d’Innovation et d’Emploi",
-    "section": "Visualisations et Analyses",
-    "text": "Visualisations et Analyses"
+    "text": "&lt;img src=\"images/innovation_employment.jpg\" alt=\"Innovation et Emploi\" style=\"width: 70%; border-radius: 15px; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);\"&gt;\n\n\n\n\n\nIdentifier les secteurs les plus innovants et leurs impacts sur l’emploi.\nComprendre les compétences les plus demandées liées à l’innovation.\nExplorer les relations entre brevets, salaires, et offres d’emploi.\nVisualiser les données pour des interprétations approfondies et compréhensibles.\n\n\n\n\n\n\nRelation entre Innovation et Salaires :\n\nUne analyse des tendances entre brevets déposés et rémunération.\n\nRelation entre Innovation et Emplois :\n\nDécouvrez comment l’innovation stimule la création d’opportunités.\n\nCompétences Clés Associées à l’Innovation :\n\nLes compétences les plus valorisées dans les entreprises innovantes.\n\nFocus sur les Secteurs et Codes IPC :\n\nUne exploration des leaders en innovation et des classifications industrielles.\n\n\n\n\n\n\nCliquez sur les liens dans la table des matières pour explorer chaque analyse en détail."
   },
   {
     "objectID": "index.html#objectifs-de-cette-analyse",
@@ -224,10 +56,45 @@
     "text": "Cliquez sur les liens dans la table des matières pour explorer chaque analyse en détail."
   },
   {
-    "objectID": "index.html#objectifs",
-    "href": "index.html#objectifs",
-    "title": "Analyse des Données d’Innovation et d’Emploi",
-    "section": "Objectifs",
-    "text": "Objectifs\nLes principaux objectifs de cette analyse sont :\n\nIdentifier les secteurs les plus innovants.\nComprendre les compétences clés associées à l’innovation.\nVisualiser les données pour interprétation."
+    "objectID": " Analyse_des_données.html#relation-entre-le-nombre-de-brevets-et-les-salaires-moyens",
+    "href": " Analyse_des_données.html#relation-entre-le-nombre-de-brevets-et-les-salaires-moyens",
+    "title": "Analyse des données",
+    "section": "Relation entre le nombre de brevets et les salaires moyens",
+    "text": "Relation entre le nombre de brevets et les salaires moyens\nCe graphique représente la relation entre le nombre de brevets déposés et les salaires moyens. La tendance observée est non linéaire, avec une forme en U inversé. Les entreprises déposant peu de brevets affichent des salaires moyens élevés, tandis que celles ayant un nombre modéré de brevets connaissent une diminution notable des salaires. En revanche, pour les entreprises très innovantes (nombre de brevets supérieur à 4000), les salaires augmentent à nouveau. Cela suggère une relation complexe entre innovation et rémunération, probablement influencée par d’autres facteurs comme la taille de l’entreprise ou le secteur d’activité."
+  },
+  {
+    "objectID": " Analyse_des_données.html#relation-entre-le-nombre-de-brevets-et-les-offres-demploi",
+    "href": " Analyse_des_données.html#relation-entre-le-nombre-de-brevets-et-les-offres-demploi",
+    "title": "Analyse des données",
+    "section": "Relation entre le nombre de brevets et les offres d’emploi",
+    "text": "Relation entre le nombre de brevets et les offres d’emploi\nCe graphique montre une corrélation positive entre le nombre de brevets et les offres d’emploi. Les entreprises les plus innovantes, ayant un nombre élevé de brevets, génèrent généralement davantage d’offres d’emploi. Cela souligne le lien entre innovation technologique et opportunités économiques."
+  },
+  {
+    "objectID": " Analyse_des_données.html#top-10-des-compétences-associées-à-linnovation",
+    "href": " Analyse_des_données.html#top-10-des-compétences-associées-à-linnovation",
+    "title": "Analyse des données",
+    "section": "Top 10 des compétences associées à l’innovation",
+    "text": "Top 10 des compétences associées à l’innovation\nCe graphique met en évidence les 10 compétences les plus associées à l’innovation, mesurées par le nombre total de brevets. La compétence “équipe” se distingue comme la plus importante, soulignant l’importance du travail collaboratif dans les entreprises innovantes. Des compétences techniques comme “git”, “python”, et “contrôle de gestion” reflètent le rôle crucial des outils de programmation et de gestion de code. Par ailleurs, des compétences transversales comme la “communication” et la “gestion de projets” démontrent leur pertinence dans la coordination des efforts d’innovation."
+  },
+  {
+    "objectID": " Analyse_des_données.html#top-5-des-secteurs-ayant-fait-beaucoup-doffre-demploi",
+    "href": " Analyse_des_données.html#top-5-des-secteurs-ayant-fait-beaucoup-doffre-demploi",
+    "title": "Analyse des données",
+    "section": "Top 5 des Secteurs ayant fait beaucoup d’offre d’emploi",
+    "text": "Top 5 des Secteurs ayant fait beaucoup d’offre d’emploi\nCe graphique montre les 5 secteurs qui ont généré le plus d’offres d’emploi. En tête, le secteur informatique et ESN domine largement, ce qui reflète la forte demande pour des compétences technologiques et numériques."
+  },
+  {
+    "objectID": " Analyse_des_données.html#top-10-des-compétences-associées-avec-salaire",
+    "href": " Analyse_des_données.html#top-10-des-compétences-associées-avec-salaire",
+    "title": "Analyse des données",
+    "section": "Top 10 des compétences associées avec salaire",
+    "text": "Top 10 des compétences associées avec salaire\n\n\n\n\n\n\nCe wordcloud montre les compétences les plus souvent associées aux salaires élevés, en fonction de leur importance relative. On remarque que des qualités comme la proactivité et l’adaptabilité prennent une grande place, ce qui prouve leur rôle clé dans les postes bien payés. Côté technique, des outils spécifiques comme AWS, Seaborn ou Excel sont aussi très valorisés, ce qui confirme que les compétences spécialisées sont essentielles. On retrouve également des compétences en IA, notamment le NLP (traitement du langage naturel), qui montrent l’importance des technologies innovantes. Les langues, comme le français, ont aussi leur importance, surtout dans des contextes internationaux. Enfin, des qualités personnelles comme l’autonomie et le sérieux sont clairement associées à de bons salaires, ce qui prouve que les entreprises recherchent un mix entre compétences techniques et qualités humaines."
+  },
+  {
+    "objectID": " Analyse_des_données.html#graphique-des-5-meilleurs-codes-ipc-par-nombre-de-brevets",
+    "href": " Analyse_des_données.html#graphique-des-5-meilleurs-codes-ipc-par-nombre-de-brevets",
+    "title": "Analyse des données",
+    "section": "Graphique des 5 meilleurs codes IPC par nombre de brevets",
+    "text": "Graphique des 5 meilleurs codes IPC par nombre de brevets\n\n\n\n\n\n\n\n\n\nCe graphique présente les 5 principaux codes IPC par nombre de brevets déposés. Les deux premiers codes, A61B et A61P, se démarquent nettement. A61B (technologies médicales) et A61P (préparations thérapeutiques) montrent une forte activité dans les secteurs de la santé et de la pharmacie, suggérant une demande élevée en compétences dans la recherche médicale et l’ingénierie biomédicale. B65D (emballages et conteneurs) et A61F (prothèses et implants) indiquent une présence notable d’innovations en logistique et dans les dispositifs médicaux. Enfin, H04L (transmission de données numériques) reflète l’importance des technologies de l’information et des télécommunications, où la demande en compétences numériques telles que réseaux et cybersécurité est forte. Ce graphique met en évidence une concentration des brevets dans les secteurs médicaux, pharmaceutiques et technologiques, suggérant que ces domaines sont moteurs d’innovation et fortement associés à une demande croissante de profils qualifiés dans la science des données, la R&D et l’ingénierie spécialisée."
   }
 ]
